@@ -1,0 +1,36 @@
+CREATE TABLE gift (min_price INT,
+                   max_price INT,
+                   present_type VARCHAR(30));
+INSERT INTO gift (min_price, max_price, present_type)
+VALUES (500, 600, 'ручка'),
+       (601, 700, 'детская раскраска'),
+       (701, NULL, 'гороскоп');                   
+
+SELECT
+    b.author AS Автор,
+    b.title AS Название_книги,
+    b.price AS Цена,
+    g.present_type AS Подарок
+FROM 
+    book AS b
+    INNER JOIN gift AS g ON      (g.min_price IS NULL OR b.price >= g.min_price) 
+                             AND (g.max_price IS NULL OR b.price <= g.max_price)       
+ORDER BY b.author, b.title; 
+
+
+
+/*
+SELECT
+    author AS Автор,
+    title Название_книги,
+    price Цена,
+    CASE
+    WHEN price > 500 AND price <= 600 THEN 'ручка'
+    WHEN price > 600 AND price <= 700 THEN 'детская раскраска'
+    WHEN price > 700 THEN 'гороскоп' END AS Подарок
+FROM book
+WHERE price >= 500
+ORDER BY author, title;
+*/
+
+
